@@ -15,20 +15,26 @@ int main(){
 	itoa(n,s);
 	
 	printf("%s",s);
+
+	return 0;
 }
 
 void itoa(int n , char s[]){
 	int i , sign;
 	unsigned int un;
 	
-	if((sign = n) < 0)
+	if((sign = n) < 0){
 		un = -((unsigned int)n);
+	}else{
+		un = n;
+	}
+		
 	
 	i = 0;
 	
 	do{
-		s[i++] = n % 10 + '0';
-	}while((n /= 10) > 0);
+		s[i++] = un % 10 + '0';
+	}while((un /= 10) > 0);
 	
 	if(sign < 0){
 		s[i++] = '-';
