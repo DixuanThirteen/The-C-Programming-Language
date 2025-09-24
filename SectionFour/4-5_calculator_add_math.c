@@ -18,11 +18,11 @@ int getch(void); /* get a (possibly pushed-back) character 获取输入字符 */
 void ungetch(int); /* push a character back on input 将多余字符存入缓冲区 */
 void func(char []); /* perform math function 执行数学函数 */
 
-
 int sp = 0;         /* next free stack position 栈指针 */
 double val[MAXVAL]; /* value stack 栈 */
 char buf[BUFSIZE]; /* buffer for ungetch 存储多余字符的缓冲区 */
 int bufp = 0;      /* next free position in buf 缓冲区指针 */
+int cmd = 0; // command flag 命令标志
 
 int main(){
     int type;
@@ -66,7 +66,10 @@ int main(){
                     printf("error: zero divisor\n");
                 break;
             case '\n':
-                printf("\t%.8g\n", pop());
+                if(cmd == 0) /* if command flag is not set 如果命令标志未设置 */
+                    printf("\t%.8g\n", pop());
+                else
+                    cmd = 0; // reset command flag 重置命令标志
                 break;
             default:
                 printf("error: unknown command %s\n", s);
@@ -74,9 +77,6 @@ int main(){
         }
     }
 }
-
-
-
 
 // getop: get next character or numeric operand
 int getop(char s[]){
@@ -101,8 +101,6 @@ int getop(char s[]){
             return ERREO;
         }
     }
-
-    
 
     if (!isdigit(c) && c != '.'){
         if( c == '-' || c == '+'){ /* check positive or negative signed 检查是否是正负符号 */
@@ -142,19 +140,24 @@ void func(char s[]){
     double pop2;
 
     if(strcmp(s, "sin") == 0){
+        cmd = 1; // set command flag 设置命令标志
         push(sin(pop()));
     }else if(strcmp(s,"exp") == 0){
+        cmd = 1;
         push(exp(pop()));
     }else if(strcmp(s,"pow") == 0){
+        cmd = 1;
         pop2 = pop();
         push(pow(pop(), pop2));
     }else if(strcmp(s,"top") == 0){
+        cmd = 1;
         if(sp > 0){
             printf("top element is\t%.8g\n", val[sp-1]);
         }else{
             printf("error: stack empty\n");
         }
     }else if(strcmp(s,"dup") == 0){
+        cmd = 1;
         if(sp > 0){
 				    pop2 = pop();
 				    push(pop2);
@@ -167,6 +170,7 @@ void func(char s[]){
                     printf("error: stack empty\n");
                 }
     }else if(strcmp(s,"swap") == 0){
+        cmd = 1;
         if(sp > 1){
             double pop1 = pop();
             pop2 = pop();
@@ -182,9 +186,11 @@ void func(char s[]){
         }
             
     }else if(strcmp(s,"clear") == 0){
+        cmd = 1;
         sp = 0;
         printf("stack cleared\n");
     }else{
+        cmd = 1;
         printf("error: unknown command %s\n", s);
     }
 }
