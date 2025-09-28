@@ -15,7 +15,7 @@ void ungetch(int); /* push a character back on input 将多余字符存入缓冲
 
 int sp = 0;         /* next free stack position 栈指针 */
 double val[MAXVAL]; /* value stack 栈 */
-char buf[BUFSIZE]; /* buffer for ungetch 存储多余字符的缓冲区 */
+signed int buf[BUFSIZE]; /* buffer for ungetch 存储多余字符的缓冲区 */
 int bufp = 0;      /* next free position in buf 缓冲区指针 */
 
 int main(){
@@ -111,6 +111,8 @@ int getch(void){
 void ungetch(int c){
     if(bufp >= BUFSIZE) /* if buffer is full , print error message , else push character back 如果缓冲区已满，打印错误信息，否则存入缓冲区 */
         printf("ungetch: too many characters\n"); 
-    else
+    else if(c != EOF) /* we don't want to push EOF back into the buffer 我们不想将EOF存入缓冲区 */
         buf[bufp++] = c;
+    else
+        exit(0);
 }

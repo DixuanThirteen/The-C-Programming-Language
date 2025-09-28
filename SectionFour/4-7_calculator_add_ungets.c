@@ -10,6 +10,8 @@
 #define NUMBER '0'  /* signal that a number was found 标志着找到了一个数字 */
 #define FUNC 'F'    /* signal that a function was found 标志着找到了一个函数 */
 #define ERREO 'E'   /* error */
+#define VAR 'V'     /* variable 变量 */
+#define UNGETS 'U'  /* ungets command ungets命令 */
 
 int getop(char []); /* get next operator or numeric operand 获取栈顶元素 */
 void push(double); /* push f onto value stack 往栈中压入元素 */
@@ -17,12 +19,16 @@ double pop(void); /* pop and return top value from stack 弹出栈顶元素 */
 int getch(void); /* get a (possibly pushed-back) character 获取输入字符 */
 void ungetch(int); /* push a character back on input 将多余字符存入缓冲区 */
 void func(char []); /* perform math function 执行数学函数 */
+void var(char []); /* handle variable 处理变量 */
+void ungets(char []); /* push string back on input 将字符串存入缓冲区 */
 
 int sp = 0;         /* next free stack position 栈指针 */
 double val[MAXVAL]; /* value stack 栈 */
 char buf[BUFSIZE]; /* buffer for ungetch 存储多余字符的缓冲区 */
 int bufp = 0;      /* next free position in buf 缓冲区指针 */
 int cmd = 0; // command flag 命令标志
+double var_table[26] = {0.0}; // variable storage 变量存储
+double var_top = 0.0; // last printed variable value 最近打印的变量值
 
 int main(){
     int type;
@@ -38,8 +44,15 @@ int main(){
             case FUNC: /* new case for math function or command 新增数学函数和命令处理分支 */
                 func(s);
                 break;
+            case VAR:
+                var(s);
+                break;
             case ERREO:
-                printf("error: unknown command1 %s\n", s);
+                printf("error: unknown command %s\n", s);
+                break;
+            case UNGETS:
+                getop(s); // get the string to push 获取要存入缓冲区的字符串 目标字符是ungets后输入的字符
+                ungets(s);
                 break;
             case '+':
                 push(pop() + pop());
@@ -65,10 +78,21 @@ int main(){
                 else
                     printf("error: zero divisor\n");
                 break;
+            case '=': // assignment operator 赋值运算符
+                pop2 = pop(); // get value to assign 获取要赋的值
+                int index = tolower(s[0]) - 'a';
+                if(index >= 0 && index < 26){
+                    var_table[index] = pop2; // assign value to variable 给变量赋值
+                }else{
+                    printf("error: unknown variable1 %s\n", s);
+                }
+                cmd = 1;
+                break;
             case '\n':
-                if(cmd == 0) /* if command flag is not set 如果命令标志未设置 */
-                    printf("\t%.8g\n", pop());
-                else
+                if(cmd == 0){/* if command flag is not set 如果命令标志未设置 */
+                    var_top = pop();
+                    printf("\t%.8g\n", var_top);
+                }else
                     cmd = 0; // reset command flag 重置命令标志
                 break;
             default:
@@ -90,19 +114,43 @@ int getop(char s[]){
     i = 0;
 
     if(isalpha(c)){
-        while ( isalpha(c = getch()))
+        while ( isalpha(c = getch())){
             s[++i] = c;
-        s[++i] = '\0';
-        if(c != EOF)
-            ungetch(c);
-        if(i > 1){ /* is a math function or command 是一个数学函数或者命令 */
-            return FUNC;
-        }else{
-            return ERREO;
         }
+            
+        s[++i] = '\0';
+
+        if(c != EOF){
+            ungetch(c);
+        }
+
+        if(i == 1){ // single letter variable 单字母变量
+            while((c = getch()) == ' ' || c == '\t')
+                ;
+            if(c == '='){
+                return '=';
+            }else{
+                ungetch(c);
+                return VAR;
+            }
+        }
+
+        if(strcmp(s,"ungets") == 0){
+            cmd = 1;
+            return UNGETS;
+        }else{
+            return FUNC;
+        }
+
+        // if(i > 1){ /* is a math function or command 是一个数学函数或者命令 */
+        //     return FUNC;
+        // }else{
+        //     return ERREO;
+        // }
     }
 
-    if (!isdigit(c) && c != '.'){
+    if (!isdigit(c) && c != '.'){//判断是正负号还是运算符
+
         if( c == '-' || c == '+'){ /* check positive or negative signed 检查是否是正负符号 */
             int next = getch();
             if(!isdigit(next) && next != '.'){
@@ -116,12 +164,14 @@ int getop(char s[]){
             return c; /* is a operator 意味着是一个运算符 */
         }
     }
-    if(isdigit(c)){
-        while( isdigit( s[++i] = c = getch() ) ) /* collect integer part 收集整数部分，并且在最后会超前读入一个字符*/
+
+    if(isdigit(c)){/* collect integer part 收集整数部分，并且在最后会超前读入一个字符*/
+        while( isdigit( s[++i] = c = getch() ) ) 
             ;
     }
-    if(c == '.'){
-        while( isdigit( s[++i] = c = getch() ) )/* collect fraction part 收集小数部分，也会超前读入一个字符*/
+
+    if(c == '.'){/* collect fraction part 收集小数部分，也会超前读入一个字符*/
+        while( isdigit( s[++i] = c = getch() ) )
             ;
     }
 
@@ -133,7 +183,13 @@ int getop(char s[]){
     return NUMBER;
 }
 
-
+void var(char s[]){
+    if(var_table[tolower(s[0]) - 'a'] != 0.0){ // check if variable has been assigned value 检查变量是否已被赋值
+        push(var_table[tolower(s[0]) - 'a']); // push variable value onto stack 将变量值压入栈中
+    }else{
+        printf("error: variable %s not assigned\n", s);
+    }
+}
 
     
 void func(char s[]){
@@ -189,6 +245,9 @@ void func(char s[]){
         cmd = 1;
         sp = 0;
         printf("stack cleared\n");
+    }else if(strcmp(s,"recent") == 0){
+        cmd = 1;
+        printf("\t%.8g\n", var_top);
     }else{
         cmd = 1;
         printf("error: unknown command %s\n", s);
@@ -224,4 +283,10 @@ void ungetch(int c){
         printf("ungetch: too many characters\n"); 
     else
         buf[bufp++] = c;
+}
+
+void ungets(char s[]){
+    int len = strlen(s);
+    while(len > 0) // push each character back onto input 逐个将字符串中的字符存入缓冲区
+        ungetch(s[--len]);
 }

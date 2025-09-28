@@ -1,3 +1,4 @@
+/*只改变了BUFSIZE的大小*/
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -5,7 +6,7 @@
 #define MAXOP 100   /* max size of operand or operator 操作数和运算符的最大长度 */
 #define NUMBER '0'  /* signal that a number was found 标志着找到了一个数字 */
 #define MAXVAL 100  /* maximum depth of val stack 栈的最大深度 */
-#define BUFSIZE 100 /* size of buffer for ungetch 缓冲区的大小 */
+#define BUFSIZE 1 /* size of buffer for ungetch 缓冲区的大小 */
 
 int getop(char []); /* get next operator or numeric operand 获取栈顶元素 */
 void push(double); /* push f onto value stack 往栈中压入元素 */
@@ -60,7 +61,7 @@ int main(){
 int getop(char s[]){
     int c , i;
 
-    while((s[0] = c = getch()) == ' ' || c == '\t')
+    while((s[0] = c = getchar()) == ' ' || c == '\t')
         ;
 
     s[1] = '\0';
@@ -71,11 +72,11 @@ int getop(char s[]){
         return c; /* is a operator 意味着是一个运算符 */
     }
     if(isdigit(c)){
-        while( isdigit( s[++i] = c = getch() ) ) /* collect integer part 收集整数部分，并且在最后会超前读入一个字符*/
+        while( isdigit( s[++i] = c = getchar() ) ) /* collect integer part 收集整数部分，并且在最后会超前读入一个字符*/
             ;
     }
     if(c == '.'){
-        while( isdigit( s[++i] = c = getch() ) )/* collect fraction part 收集小数部分，也会超前读入一个字符*/
+        while( isdigit( s[++i] = c = getchar() ) )/* collect fraction part 收集小数部分，也会超前读入一个字符*/
             ;
     }
 
