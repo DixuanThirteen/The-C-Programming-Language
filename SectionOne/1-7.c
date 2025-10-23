@@ -5,7 +5,7 @@ int main(){
 	if( (a = getchar() )!= EOF)
 		return 0;
 	else
-		printf("%d",&a);
+		printf("%d",a);
 		
 	return 0;	
 }
