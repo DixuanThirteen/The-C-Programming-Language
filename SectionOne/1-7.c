@@ -1,9 +1,9 @@
 #include<stdio.h>
 int main(){
-	char a;
-	a = a;
+	int a;
+	
 	if( (a = getchar() )!= EOF)
-		printf("1");
+		return 0;
 	else
 		printf("%c",&a);
 		
