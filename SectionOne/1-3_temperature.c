@@ -9,6 +9,7 @@ int main(){
   step = 20;
 
   printf("华氏度和摄氏度对照表\n");
+  printf("华氏度\t摄氏度\n");
 
   Fahrenheit = lower;
   while(Fahrenheit < upper){
