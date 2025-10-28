@@ -11,10 +11,39 @@ void push(double);
 double pop(void);
 //./expr.exe 2 3 4 + *
 int main(int argc , char *argv[]){
-    int sum = 0;
+    double n = 0;
     int i , c;
+    for( i = 1 ; i <= argc ; i++ ){
+        if( c = isdigit(argv[i]) ){
+            push(c);
+        }else{
+            switch(c){
+                case '+':
+                    n = pop() + pop();
+                    push(n);
+                    break;
+                case '-':
+                    n = pop() - pop();
+                    push(n);
+                    break;
+                case '*':
+                    n = pop() * pop();
+                    push(n);
+                    break;
+                case '/':
+                    n = pop() / pop();
+                    push(n);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    n = pop();
+    printf("最终结果:%f",n);
     
-    i = 1;
+    return 0;
 
 }
 
