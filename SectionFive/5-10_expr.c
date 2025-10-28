@@ -13,8 +13,8 @@ double pop(void);
 int main(int argc , char *argv[]){
     double n = 0;
     int i , c;
-    for( i = 1 ; i <= argc ; i++ ){
-        if( c = isdigit(argv[i]) ){
+    for( i = 1 ; i < argc ; i++ ){
+        if( isdigit(c = *argv[i]) ){
             push(c);
         }else{
             switch(c){
@@ -23,7 +23,8 @@ int main(int argc , char *argv[]){
                     push(n);
                     break;
                 case '-':
-                    n = pop() - pop();
+                    double pop1 = pop();
+                    n = pop1 - pop();
                     push(n);
                     break;
                 case '*':
@@ -31,7 +32,8 @@ int main(int argc , char *argv[]){
                     push(n);
                     break;
                 case '/':
-                    n = pop() / pop();
+                    double pop1 = pop();
+                    n = pop1 / pop();
                     push(n);
                     break;
                 default:
@@ -42,13 +44,13 @@ int main(int argc , char *argv[]){
 
     n = pop();
     printf("最终结果:%f",n);
-    
+
     return 0;
 
 }
 
 void push(double number){
-    sp < val ? val[sp++] = number : printf("error: stack full, can't push %g\n", number);
+    sp < MAXVAL ? val[sp++] = number : printf("error: stack full, can't push %g\n", number);
 }
 
 double pop(void){
