@@ -16,22 +16,22 @@ void reverse(char s[]){
 }
 
 void itoa(int x , char n[]){
-    static int sign = 0;        //é™æ€å˜é‡signï¼Œåªä¼šè¢«åˆå§‹åŒ–ä¸€æ¬¡
+    static int sign = 0;        //¾²Ì¬±äÁ¿sign£¬Ö»»á±»³õÊ¼»¯Ò»´Î
     if( x < 0 && sign == 0){
-        sign = x;               //å¦‚æœxæ˜¯è´Ÿæ•°ï¼Œä¿å­˜xçš„å€¼
+        sign = x;               //Èç¹ûxÊÇ¸ºÊı£¬±£´æxµÄÖµ
         x = -x;
     }
     if(x / 10){
         n[i++] = x % 10 + '0';
-        itoa(x/10,n);           //é€’å½’
+        itoa(x/10,n);           //µİ¹é
     }else{
         n[i++] = x % 10 + '0';
-        if(sign < 0){           //ç¬¦å·æ·»åŠ ç¬¦å·
+        if(sign < 0){           //·ûºÅÌí¼Ó·ûºÅ
             n[i++] = '-';
         }
         n[i] = '\0';
     }
-    reverse(n);//åè½¬å­—ç¬¦ä¸²n
+    reverse(n);//·´×ª×Ö·û´®n
 }
 
 int main(){

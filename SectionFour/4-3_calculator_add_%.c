@@ -2,21 +2,21 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#define MAXOP 100   /* max size of operand or operator æ“ä½œæ•°å’Œè¿ç®—ç¬¦çš„æœ€å¤§é•¿åº¦ */
-#define NUMBER '0'  /* signal that a number was found æ ‡å¿—ç€æ‰¾åˆ°äº†ä¸€ä¸ªæ•°å­— */
-#define MAXVAL 100  /* maximum depth of val stack æ ˆçš„æœ€å¤§æ·±åº¦ */
-#define BUFSIZE 100 /* size of buffer for ungetch ç¼“å†²åŒºçš„å¤§å° */
+#define MAXOP 100   /* max size of operand or operator ²Ù×÷ÊıºÍÔËËã·ûµÄ×î´ó³¤¶È */
+#define NUMBER '0'  /* signal that a number was found ±êÖ¾×ÅÕÒµ½ÁËÒ»¸öÊı×Ö */
+#define MAXVAL 100  /* maximum depth of val stack Õ»µÄ×î´óÉî¶È */
+#define BUFSIZE 100 /* size of buffer for ungetch »º³åÇøµÄ´óĞ¡ */
 
-int getop(char []); /* get next operator or numeric operand è·å–æ ˆé¡¶å…ƒç´  */
-void push(double); /* push f onto value stack å¾€æ ˆä¸­å‹å…¥å…ƒç´  */
-double pop(void); /* pop and return top value from stack å¼¹å‡ºæ ˆé¡¶å…ƒç´  */
-int getch(void); /* get a (possibly pushed-back) character è·å–è¾“å…¥å­—ç¬¦ */
-void ungetch(int); /* push a character back on input å°†å¤šä½™å­—ç¬¦å­˜å…¥ç¼“å†²åŒº */
+int getop(char []); /* get next operator or numeric operand »ñÈ¡Õ»¶¥ÔªËØ */
+void push(double); /* push f onto value stack ÍùÕ»ÖĞÑ¹ÈëÔªËØ */
+double pop(void); /* pop and return top value from stack µ¯³öÕ»¶¥ÔªËØ */
+int getch(void); /* get a (possibly pushed-back) character »ñÈ¡ÊäÈë×Ö·û */
+void ungetch(int); /* push a character back on input ½«¶àÓà×Ö·û´æÈë»º³åÇø */
 
-int sp = 0;         /* next free stack position æ ˆæŒ‡é’ˆ */
-double val[MAXVAL]; /* value stack æ ˆ */
-char buf[BUFSIZE]; /* buffer for ungetch å­˜å‚¨å¤šä½™å­—ç¬¦çš„ç¼“å†²åŒº */
-int bufp = 0;      /* next free position in buf ç¼“å†²åŒºæŒ‡é’ˆ */
+int sp = 0;         /* next free stack position Õ»Ö¸Õë */
+double val[MAXVAL]; /* value stack Õ» */
+char buf[BUFSIZE]; /* buffer for ungetch ´æ´¢¶àÓà×Ö·ûµÄ»º³åÇø */
+int bufp = 0;      /* next free position in buf »º³åÇøÖ¸Õë */
 
 int main(){
     int type;
@@ -75,25 +75,25 @@ int getop(char s[]){
     i = 0;
 
     if (!isdigit(c) && c != '.'){
-        if( c == '-' || c == '+'){ /* check positive or negative signed æ£€æŸ¥æ˜¯å¦æ˜¯æ­£è´Ÿç¬¦å· */
+        if( c == '-' || c == '+'){ /* check positive or negative signed ¼ì²éÊÇ·ñÊÇÕı¸º·ûºÅ */
             int next = getch();
             if(!isdigit(next) && next != '.'){
                 ungetch(next);
-                return c; /* is a operator æ„å‘³ç€æ˜¯ä¸€ä¸ªè¿ç®—ç¬¦ */
+                return c; /* is a operator ÒâÎ¶×ÅÊÇÒ»¸öÔËËã·û */
             }else{
                 c = next;
-                s[++i] = c; /* collect the sign æ”¶é›†ç¬¦å· */
+                s[++i] = c; /* collect the sign ÊÕ¼¯·ûºÅ */
             }
         }else{
-            return c; /* is a operator æ„å‘³ç€æ˜¯ä¸€ä¸ªè¿ç®—ç¬¦ */
+            return c; /* is a operator ÒâÎ¶×ÅÊÇÒ»¸öÔËËã·û */
         }
     }
     if(isdigit(c)){
-        while( isdigit( s[++i] = c = getch() ) ) /* collect integer part æ”¶é›†æ•´æ•°éƒ¨åˆ†ï¼Œå¹¶ä¸”åœ¨æœ€åä¼šè¶…å‰è¯»å…¥ä¸€ä¸ªå­—ç¬¦*/
+        while( isdigit( s[++i] = c = getch() ) ) /* collect integer part ÊÕ¼¯ÕûÊı²¿·Ö£¬²¢ÇÒÔÚ×îºó»á³¬Ç°¶ÁÈëÒ»¸ö×Ö·û*/
             ;
     }
     if(c == '.'){
-        while( isdigit( s[++i] = c = getch() ) )/* collect fraction part æ”¶é›†å°æ•°éƒ¨åˆ†ï¼Œä¹Ÿä¼šè¶…å‰è¯»å…¥ä¸€ä¸ªå­—ç¬¦*/
+        while( isdigit( s[++i] = c = getch() ) )/* collect fraction part ÊÕ¼¯Ğ¡Êı²¿·Ö£¬Ò²»á³¬Ç°¶ÁÈëÒ»¸ö×Ö·û*/
             ;
     }
 
@@ -106,7 +106,7 @@ int getop(char s[]){
 }
 
 void push(double number){
-    if(sp < MAXVAL){ /* if stack is not full , push number onto stack , else print error message å¦‚æœæ ˆæœªæ»¡ï¼Œåˆ™å°†æ•°å­—å‹å…¥æ ˆä¸­ï¼Œå¦åˆ™æ‰“å°é”™è¯¯ä¿¡æ¯ */
+    if(sp < MAXVAL){ /* if stack is not full , push number onto stack , else print error message Èç¹ûÕ»Î´Âú£¬Ôò½«Êı×ÖÑ¹ÈëÕ»ÖĞ£¬·ñÔò´òÓ¡´íÎóĞÅÏ¢ */
         val[sp++] = number;
     }else{
         printf("error: stack full, can't push %g\n", number);
@@ -114,7 +114,7 @@ void push(double number){
 }
 
 double pop(void){
-    if(sp > 0){ /*if stack is not empty , pop the top value from the stack , else print error message å¦‚æœæ ˆä¸ä¸ºç©ºï¼Œåˆ™å¼¹å‡ºæ ˆé¡¶å…ƒç´ ï¼Œå¦åˆ™æ‰“å°é”™è¯¯ä¿¡æ¯ */
+    if(sp > 0){ /*if stack is not empty , pop the top value from the stack , else print error message Èç¹ûÕ»²»Îª¿Õ£¬Ôòµ¯³öÕ»¶¥ÔªËØ£¬·ñÔò´òÓ¡´íÎóĞÅÏ¢ */
         return val[--sp];
     }else{
         printf("error: stack empty\n");
@@ -123,11 +123,11 @@ double pop(void){
 }
 
 int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();  /* get a (possibly pushed-back) character å¦‚æœç¼“å†²åŒºä¸ä¸ºç©ºï¼Œåˆ™ä»ç¼“å†²åŒºä¸­å–å‡ºä¸€ä¸ªå­—ç¬¦ï¼Œå¦åˆ™ä»æ ‡å‡†è¾“å…¥ä¸­è¯»å–ä¸€ä¸ªå­—ç¬¦ */
+    return (bufp > 0) ? buf[--bufp] : getchar();  /* get a (possibly pushed-back) character Èç¹û»º³åÇø²»Îª¿Õ£¬Ôò´Ó»º³åÇøÖĞÈ¡³öÒ»¸ö×Ö·û£¬·ñÔò´Ó±ê×¼ÊäÈëÖĞ¶ÁÈ¡Ò»¸ö×Ö·û */
 }
 
 void ungetch(int c){
-    if(bufp >= BUFSIZE) /* if buffer is full , print error message , else push character back å¦‚æœç¼“å†²åŒºå·²æ»¡ï¼Œæ‰“å°é”™è¯¯ä¿¡æ¯ï¼Œå¦åˆ™å­˜å…¥ç¼“å†²åŒº */
+    if(bufp >= BUFSIZE) /* if buffer is full , print error message , else push character back Èç¹û»º³åÇøÒÑÂú£¬´òÓ¡´íÎóĞÅÏ¢£¬·ñÔò´æÈë»º³åÇø */
         printf("ungetch: too many characters\n"); 
     else
         buf[bufp++] = c;

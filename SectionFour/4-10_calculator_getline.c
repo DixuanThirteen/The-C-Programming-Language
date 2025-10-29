@@ -2,18 +2,18 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#define MAXOP 1000   /* max size of operand or operator æ“ä½œæ•°å’Œè¿ç®—ç¬¦çš„æœ€å¤§é•¿åº¦ */
-#define NUMBER '0'  /* signal that a number was found æ ‡å¿—ç€æ‰¾åˆ°äº†ä¸€ä¸ªæ•°å­— */
-#define MAXVAL 100  /* maximum depth of val stack æ ˆçš„æœ€å¤§æ·±åº¦ */
-#define MAXLINE 1000 /* max size of input line è¾“å…¥è¡Œçš„æœ€å¤§é•¿åº¦ */
+#define MAXOP 1000   /* max size of operand or operator ²Ù×÷ÊıºÍÔËËã·ûµÄ×î´ó³¤¶È */
+#define NUMBER '0'  /* signal that a number was found ±êÖ¾×ÅÕÒµ½ÁËÒ»¸öÊı×Ö */
+#define MAXVAL 100  /* maximum depth of val stack Õ»µÄ×î´óÉî¶È */
+#define MAXLINE 1000 /* max size of input line ÊäÈëĞĞµÄ×î´ó³¤¶È */
 
-int getop(char []); /* get next operator or numeric operand è·å–æ ˆé¡¶å…ƒç´  */
-void push(double); /* push f onto value stack å¾€æ ˆä¸­å‹å…¥å…ƒç´  */
-double pop(void); /* pop and return top value from stack å¼¹å‡ºæ ˆé¡¶å…ƒç´  */
-int get_line(char [], int); /* get line into s , return length è·å–ä¸€è¡Œè¾“å…¥ */
+int getop(char []); /* get next operator or numeric operand »ñÈ¡Õ»¶¥ÔªËØ */
+void push(double); /* push f onto value stack ÍùÕ»ÖĞÑ¹ÈëÔªËØ */
+double pop(void); /* pop and return top value from stack µ¯³öÕ»¶¥ÔªËØ */
+int get_line(char [], int); /* get line into s , return length »ñÈ¡Ò»ĞĞÊäÈë */
 
-int sp = 0;         /* next free stack position æ ˆæŒ‡é’ˆ */
-double val[MAXVAL]; /* value stack æ ˆ */
+int sp = 0;         /* next free stack position Õ»Ö¸Õë */
+double val[MAXVAL]; /* value stack Õ» */
 
 int main(){
     char s[MAXOP];
@@ -80,7 +80,7 @@ int getop(char s[]){
 }
 
 void push(double number){
-    if(sp < MAXVAL){ /* if stack is not full , push number onto stack , else print error message å¦‚æœæ ˆæœªæ»¡ï¼Œåˆ™å°†æ•°å­—å‹å…¥æ ˆä¸­ï¼Œå¦åˆ™æ‰“å°é”™è¯¯ä¿¡æ¯ */
+    if(sp < MAXVAL){ /* if stack is not full , push number onto stack , else print error message Èç¹ûÕ»Î´Âú£¬Ôò½«Êı×ÖÑ¹ÈëÕ»ÖĞ£¬·ñÔò´òÓ¡´íÎóĞÅÏ¢ */
         val[sp++] = number;
     }else{
         printf("error: stack full, can't push %g\n", number);
@@ -88,7 +88,7 @@ void push(double number){
 }
 
 double pop(void){
-    if(sp > 0){ /*if stack is not empty , pop the top value from the stack , else print error message å¦‚æœæ ˆä¸ä¸ºç©ºï¼Œåˆ™å¼¹å‡ºæ ˆé¡¶å…ƒç´ ï¼Œå¦åˆ™æ‰“å°é”™è¯¯ä¿¡æ¯ */
+    if(sp > 0){ /*if stack is not empty , pop the top value from the stack , else print error message Èç¹ûÕ»²»Îª¿Õ£¬Ôòµ¯³öÕ»¶¥ÔªËØ£¬·ñÔò´òÓ¡´íÎóĞÅÏ¢ */
         return val[--sp];
     }else{
         printf("error: stack empty\n");
