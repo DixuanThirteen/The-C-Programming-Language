@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define MAXLINE 100
-void my_strcat(char *s , char *t);/*ä½¿ç”¨strcatä¼šæç¤ºç±»å‹å†²çªï¼Œè™½ç„¶ä¸å½±å“è¿è¡Œ*/
+void my_strcat(char *s , char *t);/*Ê¹ÓÃstrcat»áÌáÊ¾ÀàĞÍ³åÍ»£¬ËäÈ»²»Ó°ÏìÔËĞĞ*/
 
 int main(){
     char s[MAXLINE] , t[MAXLINE];

@@ -1,7 +1,7 @@
 /*
-    5.5 字符指针与函数
-    strcpy函数
-    将指针t指向的字符串复制到指针s所指向的位置
+    5.5 �ַ�ָ���뺯��
+    strcpy����
+    ��ָ��tָ����ַ������Ƶ�ָ��s��ָ���λ��
 */
 void strcpy(char *s, char *t){
     int i;

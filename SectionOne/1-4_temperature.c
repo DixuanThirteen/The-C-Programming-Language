@@ -8,12 +8,12 @@ int main(){
   upper = 300;
   step = 20;
 
-  printf("鎽勬皬搴﹀拰鍗庢皬搴﹀鐓ц〃\n");
-  printf("鎽勬皬搴t鍗庢皬搴n");
+  printf("摄氏度和华氏度对照表\n");
+  printf("摄氏度\t华氏度\n");
 
   Celsius = lower;
   while(Celsius < upper){
-    Fahrenheit = 9 * Celsius / 5 + 32 ;//F = 9 脳 C / 5 + 32
+    Fahrenheit = 9 * Celsius / 5 + 32 ;//F = 9 × C / 5 + 32
     printf("%d\t%d\n", Celsius , Fahrenheit);
     Celsius += step;
   }

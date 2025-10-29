@@ -24,21 +24,21 @@ int main(){
 }
 
 int strend(char *s , char *t){
-    int t_len = strlen(t); //è¯»å–tçš„é•¿åº¦
-    int s_len = strlen(s); //è¯»å–sçš„é•¿åº¦
+    int t_len = strlen(t); //¶ÁÈ¡tµÄ³¤¶È
+    int s_len = strlen(s); //¶ÁÈ¡sµÄ³¤¶È
     int i;
 
-    if(t_len <= s_len)       //åˆ¤æ–­sæ˜¯å¦æ¯”té•¿
+    if(t_len <= s_len)       //ÅĞ¶ÏsÊÇ·ñ±Èt³¤
         i = s_len - t_len; 
     else
         return 0;
 
-    while(i != 0){          //è·³è¿‡så‰é¢çš„å­—ç¬¦ï¼Œä¿ç•™å’Œtä¸€æ ·é•¿åº¦çš„å­—ç¬¦
+    while(i != 0){          //Ìø¹ısÇ°ÃæµÄ×Ö·û£¬±£ÁôºÍtÒ»Ñù³¤¶ÈµÄ×Ö·û
         s++;
         i--;
     }
     
-    while(*t){              //ç”¨tåˆ¤æ–­æ˜¯å¦è¯»å®Œäº†æ‰€æœ‰å­—ç¬¦
+    while(*t){              //ÓÃtÅĞ¶ÏÊÇ·ñ¶ÁÍêÁËËùÓĞ×Ö·û
         if(*s++ != *t++)
             return 0;
     }

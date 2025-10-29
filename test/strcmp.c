@@ -1,7 +1,7 @@
 /*
-    5.5 å­—ç¬¦æŒ‡é’ˆä¸å‡½æ•°
-    strcmpå‡½æ•°
-    æ ¹æ®sæŒ‰ç…§å­—å…¸é¡ºåºå°äºã€ç­‰äºæˆ–å¤§äºtçš„ç»“æœåˆ†åˆ«è¿”å›è´Ÿæ•´æ•°ã€0æˆ–æ­£æ•´æ•°
+    5.5 ×Ö·ûÖ¸ÕëÓëº¯Êı
+    strcmpº¯Êı
+    ¸ù¾İs°´ÕÕ×ÖµäË³ĞòĞ¡ÓÚ¡¢µÈÓÚ»ò´óÓÚtµÄ½á¹û·Ö±ğ·µ»Ø¸ºÕûÊı¡¢0»òÕıÕûÊı
 */
 int strcmp(char *s, char *t){
     int i;
@@ -13,11 +13,11 @@ int strcmp(char *s, char *t){
     return s[i] - t[i];
 }
 
-int strcmp(char *s, char *t){
+// int strcmp(char *s, char *t){
 
-    for( ; *s == *t ; s++ , t++){
-        if(*s == '\0')
-            return 0;
-    }
-    return *s - *t;
-}
+//     for( ; *s == *t ; s++ , t++){
+//         if(*s == '\0')
+//             return 0;
+//     }
+//     return *s - *t;
+// }

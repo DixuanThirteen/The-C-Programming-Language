@@ -11,6 +11,6 @@ int main(){
 		else if(c == '\n')
 			cn++;
 	} 
-	printf("ç©ºæ ¼æ•°ï¼š%d\nåˆ¶è¡¨ç¬¦æ•°ï¼š%d\næ¢è¡Œç¬¦æ•°ï¼š%d",cspace , ct , cn);
+	printf("¿Õ¸ñÊı£º%d\nÖÆ±í·ûÊı£º%d\n»»ĞĞ·ûÊı£º%d",cspace , ct , cn);
 	return 0;
 }

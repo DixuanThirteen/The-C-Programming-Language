@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#define BUFSIZE 100 /* size of buffer for ungetch ç¼“å†²åŒºçš„å¤§å° */
+#define BUFSIZE 100 /* size of buffer for ungetch »º³åÇøµÄ´óĞ¡ */
 
 int getch(void);
 void ungetch(int);
-char buf[BUFSIZE]; /* buffer for ungetch å­˜å‚¨å¤šä½™å­—ç¬¦çš„ç¼“å†²åŒº */
-int bufp = 0;      /* next free position in buf ç¼“å†²åŒºæŒ‡é’ˆ */
+char buf[BUFSIZE]; /* buffer for ungetch ´æ´¢¶àÓà×Ö·ûµÄ»º³åÇø */
+int bufp = 0;      /* next free position in buf »º³åÇøÖ¸Õë */
 
 int getint(int *pn){
     int c , sign;
@@ -22,7 +22,7 @@ int getint(int *pn){
     if(c == '+' || c == '-'){
         int signchar = c;
         c = getch();
-        if(!isdigit(c)){ //if the char after the sign is not digit , push the char and the sign to the buffer  å¦‚æœç¬¦å·åé¢ä¸æ˜¯æ•°å­—ï¼ŒæŠŠç¬¦å·ä»¥åŠåé¢çš„æ•°éƒ½æ¨å›è¾“å…¥æµ
+        if(!isdigit(c)){ //if the char after the sign is not digit , push the char and the sign to the buffer  Èç¹û·ûºÅºóÃæ²»ÊÇÊı×Ö£¬°Ñ·ûºÅÒÔ¼°ºóÃæµÄÊı¶¼ÍÆ»ØÊäÈëÁ÷
             if(c != EOF)
                 ungetch(c);
             ungetch(signchar);
@@ -57,11 +57,11 @@ int main(){
 }
 
 int getch(void){
-    return (bufp > 0) ? buf[--bufp] : getchar();  /* get a (possibly pushed-back) character å¦‚æœç¼“å†²åŒºä¸ä¸ºç©ºï¼Œåˆ™ä»ç¼“å†²åŒºä¸­å–å‡ºä¸€ä¸ªå­—ç¬¦ï¼Œå¦åˆ™ä»æ ‡å‡†è¾“å…¥ä¸­è¯»å–ä¸€ä¸ªå­—ç¬¦ */
+    return (bufp > 0) ? buf[--bufp] : getchar();  /* get a (possibly pushed-back) character Èç¹û»º³åÇø²»Îª¿Õ£¬Ôò´Ó»º³åÇøÖĞÈ¡³öÒ»¸ö×Ö·û£¬·ñÔò´Ó±ê×¼ÊäÈëÖĞ¶ÁÈ¡Ò»¸ö×Ö·û */
 }
 
 void ungetch(int c){
-    if(bufp >= BUFSIZE) /* if buffer is full , print error message , else push character back å¦‚æœç¼“å†²åŒºå·²æ»¡ï¼Œæ‰“å°é”™è¯¯ä¿¡æ¯ï¼Œå¦åˆ™å­˜å…¥ç¼“å†²åŒº */
+    if(bufp >= BUFSIZE) /* if buffer is full , print error message , else push character back Èç¹û»º³åÇøÒÑÂú£¬´òÓ¡´íÎóĞÅÏ¢£¬·ñÔò´æÈë»º³åÇø */
         printf("ungetch: too many characters\n"); 
     else
         buf[bufp++] = c;
